@@ -4,6 +4,7 @@ import Icon from '../components/Icon.astro';
 import CallButtons from '../components/CallButtons.astro';
 import Faq from '../components/Faq.astro';
 import Foto from '../components/Foto.astro';
+import Yorumlar from '../components/Yorumlar.astro';
 import { business, bands, otherAreas } from '../data/site';
 import { hizmetler } from '../data/hizmetler';
 import { bolgeler } from '../data/bolgeler';
@@ -112,6 +113,8 @@ const sss = [
       </div>
     </div>
   </section>
+
+  <Yorumlar />
 
   <Faq items={sss} id="b-sss" />
 

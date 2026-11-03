@@ -56,7 +56,7 @@ const tarih = new Date(r.published).toLocaleDateString('tr-TR', { day: 'numeric'
         <h2 id={`r-b${i}`}>{s.h}</h2>
         {s.p && <div class="prose">{s.p.map((p) => <p>{p}</p>)}</div>}
         {s.table && (
-          <div class="tablo-kap"><table>
+          <div class="tablo-kap" tabindex="0" role="region" aria-label="Karşılaştırma tablosu"><table>
             <thead><tr>{s.table.head.map((c) => <th scope="col">{c}</th>)}</tr></thead>
             <tbody>{s.table.rows.map((row) => <tr>{row.map((c) => <td>{c}</td>)}</tr>)}</tbody>
           </table></div>

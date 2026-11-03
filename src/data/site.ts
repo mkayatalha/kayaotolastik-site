@@ -16,6 +16,13 @@ export const business = {
   email: '',
   instagram: '',
   googleProfile: '', // İşletme Profili açılınca "https://maps.app.goo.gl/..." linki buraya
+  // İşletme Profili > "Yorum iste" düğmesinin verdiği link ("https://g.page/r/.../review").
+  // Doluysa sitede "Google'da değerlendirin" bölümü ve kayaotolastik724.com/yorum/ kısa linki çalışır.
+  googleReviewUrl: '',
+  // Google'daki gerçek puan ve yorum sayısı. Elle güncellenir; 0 bırakılırsa puan gösterilmez.
+  // Uydurma ya da tahmini rakam yazılmaz.
+  googleRating: 0,
+  googleReviewCount: 0,
 };
 
 // Ölçüm kodları. Boş bırakılan servis siteye hiç yüklenmez.

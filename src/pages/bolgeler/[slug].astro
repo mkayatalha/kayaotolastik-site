@@ -4,6 +4,7 @@ import Crumbs from '../../components/Crumbs.astro';
 import CallButtons from '../../components/CallButtons.astro';
 import Faq from '../../components/Faq.astro';
 import Foto from '../../components/Foto.astro';
+import Yorumlar from '../../components/Yorumlar.astro';
 import Varis from '../../components/Varis.astro';
 import { bolgeler, bolgeBySlug, type Bolge } from '../../data/bolgeler';
 import { hizmetler } from '../../data/hizmetler';
@@ -94,6 +95,8 @@ const schema = [{
     </div>
     <Foto title={`Gerçek iş fotoğrafı (${b.name})`} note={b.photo} />
   </section>
+
+  <Yorumlar bolge={b.name} />
 
   <Faq items={b.faq} id="t-sss" kicker={`${b.name} için sorular`} title="Sık sorulanlar" />
 

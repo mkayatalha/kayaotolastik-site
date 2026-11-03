@@ -108,13 +108,14 @@ const jsonLd = [isletme, ...crumbs, ...schema];
   {analytics.cloudflareToken && (
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: analytics.cloudflareToken })}></script>
   )}
+  <slot name="head" />
 </head>
 <body>
   <a class="skip" href="#icerik">İçeriğe geç</a>
   <div class="serit" aria-hidden="true"></div>
   <header class="ust">
     <div class="kap">
-      <a class="logo" href="/" aria-label={`${business.name} ana sayfa`}>
+      <a class="logo" href="/">
         <span class="logo-isaret" aria-hidden="true"><b>K</b></span>
         <span class="logo-ad">{business.shortName}<small>Mobil Yol Yardım · 7/24</small></span>
       </a>
@@ -122,7 +123,7 @@ const jsonLd = [isletme, ...crumbs, ...schema];
         <nav class="menu-ust" aria-label="Ana menü">
           {nav.map((n) => <a href={n.href}>{n.label}</a>)}
         </nav>
-        <a class="ust-tel" href={`tel:${business.phoneE164}`} data-olcum="ara"><span class="canli" aria-hidden="true"></span><span class="num">{business.phone}</span><span class="kisa">Ara</span></a>
+        <a class="ust-tel" href={`tel:${business.phoneE164}`} data-olcum="ara"><span class="canli" aria-hidden="true"></span><span class="num">{business.phone}</span></a>
         <details class="menu-mobil">
           <summary aria-label="Menüyü aç">Menü</summary>
           <nav aria-label="Mobil menü">
@@ -131,6 +132,9 @@ const jsonLd = [isletme, ...crumbs, ...schema];
         </details>
       </div>
     </div>
+    <a class="tel-serit" href={`tel:${business.phoneE164}`} data-olcum="ara">
+      <Icon name="tel" /><span class="tel-no">{business.phone}</span><span class="tel-not"><span class="canli" aria-hidden="true"></span>7/24 açık</span>
+    </a>
   </header>
 
   <main id="icerik">
@@ -145,6 +149,7 @@ const jsonLd = [isletme, ...crumbs, ...schema];
           Tuzla merkezli mobil hizmet · 7 gün 24 saat<br />
           <a href={`tel:${business.phoneE164}`} data-olcum="ara">{business.phone}</a><br />
           <a href={waBase} data-olcum="whatsapp" rel="noopener">WhatsApp</a>
+          {business.googleProfile && <><br /><a href={business.googleProfile} data-olcum="harita" rel="noopener">Google Haritalar’da gör</a></>}
         </div>
         <div>
           <h2>Hizmetler</h2>

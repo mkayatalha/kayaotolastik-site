@@ -8,7 +8,7 @@
   --soluk:#b4b0a6;
   --sari:#ffc928;
   --turuncu:#ff6a13;
-  --wa:#1fae55;
+  --wa:#12823f;
   --levha:#0f6b3e;
   --font-baslik:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --font-metin:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -42,14 +42,22 @@ header.ust .kap{display:flex;align-items:center;justify-content:space-between;ga
 .logo-ad{font-family:var(--font-baslik);font-weight:800;font-size:1.3rem;line-height:1;text-transform:uppercase}
 .logo-ad small{display:block;font-weight:600;font-size:.82rem;color:var(--soluk);letter-spacing:.06em}
 .ust-tel{font-family:var(--font-baslik);font-weight:700;font-size:1.2rem;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:6px}
-.canli{width:9px;height:9px;border-radius:50%;background:var(--wa);box-shadow:0 0 0 0 rgba(31,174,85,.6);animation:nabiz 2s infinite}
+.canli{width:9px;height:9px;border-radius:50%;background:#2bd36b;box-shadow:0 0 0 0 rgba(31,174,85,.6);animation:nabiz 2s infinite}
 @keyframes nabiz{70%{box-shadow:0 0 0 9px rgba(31,174,85,0)}100%{box-shadow:0 0 0 0 rgba(31,174,85,0)}}
-.ust-tel .kisa{display:none}@media (max-width:520px){.ust-tel .num{display:none}.ust-tel .kisa{display:inline;border:2px solid var(--turuncu);color:var(--turuncu);padding:2px 12px;border-radius:999px}}
+/* Mobilde numara ikinci satırda, tam genişlikte; başlık o zaman yapışkan değil (altta sabit Ara çubuğu var). */
+.tel-serit{display:none}
+@media (max-width:599px){
+  header.ust{position:static}
+  .ust-tel{display:none}
+  .tel-serit{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 18px;border-top:1px solid var(--cizgi);background:var(--asfalt-2);text-decoration:none;font-family:var(--font-baslik);font-weight:800;font-size:1.45rem;letter-spacing:.02em;color:var(--turuncu);font-variant-numeric:tabular-nums}
+  .tel-serit svg{width:22px;height:22px;flex:none}
+  .tel-serit .tel-not{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:var(--font-metin);font-weight:700;font-size:.85rem;color:var(--soluk);letter-spacing:0}
+}
 
 /* Tuşlar */
 .tuslar{display:grid;gap:12px}
 .tus{display:flex;align-items:center;justify-content:center;gap:12px;min-height:64px;padding:12px 18px;border-radius:14px;font-family:var(--font-baslik);font-weight:800;font-size:1.5rem;text-transform:uppercase;text-decoration:none;border:0;cursor:pointer;letter-spacing:.02em;width:100%}
-.tus small{display:block;font-family:var(--font-metin);font-weight:400;font-size:.85rem;text-transform:none;letter-spacing:0;opacity:.9}
+.tus small{display:block;font-family:var(--font-metin);font-weight:400;font-size:.85rem;text-transform:none;letter-spacing:0}
 .tus svg{width:28px;height:28px;flex:none}
 .tus-ara{background:var(--turuncu);color:#111}
 .tus-wa{background:var(--wa);color:#fff}
@@ -241,3 +249,25 @@ footer h2{font-size:1.15rem;color:var(--metin);margin-bottom:6px}
 .metin-sayfa h2{font-size:1.6rem;margin-top:14px}
 .metin-sayfa p,.metin-sayfa li{color:var(--soluk)}
 .tarih{font-size:.9rem;color:var(--soluk)}
+
+/* Google Haritalar ve yorum bölümü */
+.google-kart{background:var(--asfalt-2);border:1px solid var(--cizgi);border-radius:14px;padding:18px;display:grid;gap:14px;max-width:760px}
+.google-puan{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.google-puan b{font-family:var(--font-baslik);font-weight:800;font-size:2.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.google-puan .yildiz{font-size:1.4rem;letter-spacing:2px;background:linear-gradient(90deg,var(--sari) var(--oran),var(--cizgi) var(--oran));-webkit-background-clip:text;background-clip:text;color:transparent}
+.google-tuslar{display:grid;gap:10px}
+@media (min-width:600px){.google-tuslar{grid-template-columns:1fr 1fr}}
+
+/* Test bulguları: dokunma alanları ve dar ekran */
+.menu-mobil summary{min-height:44px;display:flex;align-items:center}
+.alt-izgara ul{gap:0}
+.alt-izgara li a,.nap a,.yasal a,.yasal button{display:inline-block;padding:6px 0;min-height:32px}
+.varis-levha{flex-wrap:wrap}
+.kunye{margin:0;display:grid;border:1px solid var(--cizgi);border-radius:12px;overflow:hidden}
+.kunye div{display:grid;gap:2px;padding:12px 14px;border-bottom:1px solid var(--cizgi)}
+.kunye div:last-child{border-bottom:0}
+.kunye dt{font-family:var(--font-baslik);font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--sari)}
+.kunye dd{margin:0}
+@media (min-width:600px){.kunye div{grid-template-columns:200px 1fr;gap:14px}}
+.bolum>*,.hero>*,.kart{min-width:0}.kart span,.kart b{overflow-wrap:anywhere}
+.bolum,.hero{grid-template-columns:minmax(0,1fr)}.varis-levha,.durum{width:fit-content}

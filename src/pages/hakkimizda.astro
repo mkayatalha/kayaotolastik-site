@@ -40,16 +40,14 @@ const schema = [{ '@context': 'https://schema.org', '@type': 'AboutPage', url: `
 
   <section class="kap bolum" aria-labelledby="h-bilgi">
     <h2 id="h-bilgi">İşletme bilgileri</h2>
-    <div class="tablo-kap"><table>
-      <tbody>
-        <tr><th scope="row">İşletme adı</th><td>{business.name}</td></tr>
-        <tr><th scope="row">Ticari ünvan</th><td>{business.legalName}</td></tr>
-        <tr><th scope="row">Merkez</th><td>Tuzla, İstanbul (mobil hizmet; müşteri kabul edilen bir dükkân yoktur)</td></tr>
-        <tr><th scope="row">Telefon</th><td><a href={`tel:${business.phoneE164}`} data-olcum="ara">{business.phone}</a></td></tr>
-        <tr><th scope="row">Çalışma saatleri</th><td>7 gün 24 saat</td></tr>
-        <tr><th scope="row">Hizmet bölgesi</th><td>İstanbul Anadolu Yakası, Gebze, Çayırova, Dilovası, Körfez, İzmit (<a href="/bolgeler/">ayrıntılar</a>)</td></tr>
-      </tbody>
-    </table></div>
+    <dl class="kunye">
+      <div><dt>İşletme adı</dt><dd>{business.name}</dd></div>
+      <div><dt>Ticari ünvan</dt><dd>{business.legalName}</dd></div>
+      <div><dt>Merkez</dt><dd>Tuzla, İstanbul (mobil hizmet; müşteri kabul edilen bir dükkân yoktur)</dd></div>
+      <div><dt>Telefon</dt><dd><a href={`tel:${business.phoneE164}`} data-olcum="ara">{business.phone}</a></dd></div>
+      <div><dt>Çalışma saatleri</dt><dd>7 gün 24 saat</dd></div>
+      <div><dt>Hizmet bölgesi</dt><dd>İstanbul Anadolu Yakası, Gebze, Çayırova, Dilovası, Körfez, İzmit (<a href="/bolgeler/">ayrıntılar</a>)</dd></div>
+    </dl>
   </section>
 
   <section class="kap bolum">

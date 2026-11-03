@@ -1,0 +1,31 @@
+---
+// Google İşletme Profili bağlantıları. Link girilmeden hiçbir şey göstermez.
+import { business } from '../data/site';
+interface Props { baslik?: string; bolge?: string }
+const { baslik = 'Google’da bizi bulun', bolge } = Astro.props;
+const harita = business.googleProfile;
+const yorum = business.googleReviewUrl;
+const puan = business.googleRating > 0 && business.googleReviewCount > 0;
+---
+{(harita || yorum) && (
+  <section class="kap bolum" aria-labelledby="b-google">
+    <div>
+      <p class="ust-yazi">Google Haritalar</p>
+      <h2 id="b-google">{baslik}</h2>
+    </div>
+    <div class="google-kart">
+      {puan && (
+        <p class="google-puan">
+          <b>{business.googleRating.toLocaleString('tr-TR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</b>
+          <span class="yildiz" aria-hidden="true" style={`--oran:${(business.googleRating / 5) * 100}%`}>★★★★★</span>
+          <span>{business.googleReviewCount} Google yorumu</span>
+        </p>
+      )}
+      <p class="soluk">{bolge ? `${bolge} dahil tüm hizmet bölgemizde` : 'Anadolu Yakası, Gebze ve İzmit’te'} Google Haritalar’da “Kaya Oto Lastik Mobil Yol Yardım” adıyla görünüyoruz. Hizmetimizden memnun kaldıysanız kısa bir yorum, yolda kalan bir sonraki sürücünün bizi bulmasını sağlar.</p>
+      <div class="google-tuslar">
+        {harita && <a class="tus tus-ikincil" href={harita} rel="noopener" data-olcum="harita">Haritalarda aç</a>}
+        {yorum && <a class="tus tus-ikincil" href={yorum} rel="noopener" data-olcum="yorum">Yorum yaz</a>}
+      </div>
+    </div>
+  </section>
+)}
