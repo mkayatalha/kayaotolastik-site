@@ -1,8 +1,7 @@
 ---
-// Gerçek fotoğraf gelene kadar yer tutucu. src verilirse gerçek görsel basılır.
+// Gerçek fotoğraf. src yoksa hiçbir şey basmaz; fotoğrafı olmayan bölümler sayfalarda gizlenir
+// (yayında boş yer tutucu kutu görünmesin diye).
 interface Props { title: string; note: string; src?: string; alt?: string; ratio?: string }
 const { title, note, src, alt = '', ratio = '16/9' } = Astro.props;
 ---
-{src
-  ? <img src={src} alt={alt} loading="lazy" decoding="async" style={`aspect-ratio:${ratio};width:100%;object-fit:cover;border-radius:14px`} />
-  : <div class="foto" style={`aspect-ratio:${ratio}`} role="img" aria-label={`${title} (fotoğraf yakında)`}><div><b>{title}</b>{note}</div></div>}
+{src && <img src={src} alt={alt || `${title}: ${note}`} loading="lazy" decoding="async" style={`aspect-ratio:${ratio};width:100%;object-fit:cover;border-radius:14px`} />}

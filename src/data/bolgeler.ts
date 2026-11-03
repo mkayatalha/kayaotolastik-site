@@ -23,6 +23,7 @@ export type Bolge = {
   komsular: string[]; // bolge slug'ları
   anilan?: string[]; // sayfası olmayan yakın yerler
   photo: string;
+  photoSrc?: string; // ör. '/foto/tuzla.webp'; boşsa fotoğraf bölümü görünmez
   faq: Faq[];
 };
 

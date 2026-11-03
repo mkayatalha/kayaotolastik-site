@@ -17,7 +17,7 @@ export type Hizmet = {
   duration: string; // ne kadar sürer
   limits: string; // ne zaman yerinde çözülemez
   extra?: { h: string; p: string[] };
-  photo: { t: string; d: string };
+  photo: { t: string; d: string; src?: string }; // src: ör. /foto/lastik.webp — boşsa bölüm görünmez
   faq: Faq[];
   guide?: string; // ilgili rehber slug'ı
 };

@@ -1,0 +1,15 @@
+---
+import { business } from '../data/site';
+interface Props { baslik?: string; metin?: string }
+const { baslik = 'Yolda mısınız? Bekletmeyelim.', metin = 'Aradığınızda net fiyatı ve varış süresini söyleyip yola çıkıyoruz.' } = Astro.props;
+---
+<section class="kap bolum">
+  <div class="cagri">
+    <h2>{baslik}</h2>
+    <p>{metin}</p>
+    <div class="tuslar">
+      <a class="tus tus-ara" href={`tel:${business.phoneE164}`} data-olcum="ara"><span>Hemen ara<small>{business.phone}</small></span></a>
+      <button class="tus tus-ikincil" type="button" data-konum>Konum gönder (WhatsApp)</button>
+    </div>
+  </div>
+</section>

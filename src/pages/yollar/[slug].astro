@@ -1,4 +1,5 @@
 ---
+import Cagri from '../../components/Cagri.astro';
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import CallButtons from '../../components/CallButtons.astro';
@@ -50,10 +51,10 @@ const schema = [{
     <p class="not">Süreler Tuzla'daki üssümüzden ortalamadır. Aradığınızda o anki net süreyi ve nerede buluşacağımızı söyleriz.</p>
   </section>
 
-  <section class="kap bolum" aria-labelledby="y-foto">
+  {y.photoSrc && <section class="kap bolum" aria-labelledby="y-foto">
     <h2 id="y-foto">Sahadan</h2>
-    <Foto title={`${y.name} çevresinde iş`} note={y.photo} />
-  </section>
+    <Foto src={y.photoSrc} title={`${y.name} çevresinde iş`} note={y.photo} />
+  </section>}
 
   <Faq items={y.faq} id="y-sss" kicker={`${y.name} için sorular`} title="Sık sorulanlar" />
 
@@ -61,4 +62,6 @@ const schema = [{
     <h2 id="y-ilce">Bu yol üzerindeki ilçeler</h2>
     <ul class="baglar">{ilceler.map((b) => <li><a href={`/bolgeler/${b.slug}/`}>{b.name} · {bandLabel(b.band)}</a></li>)}</ul>
   </section>
+
+  <Cagri />
 </Base>

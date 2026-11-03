@@ -271,3 +271,28 @@ footer h2{font-size:1.15rem;color:var(--metin);margin-bottom:6px}
 @media (min-width:600px){.kunye div{grid-template-columns:200px 1fr;gap:14px}}
 .bolum>*,.hero>*,.kart{min-width:0}.kart span,.kart b{overflow-wrap:anywhere}
 .bolum,.hero{grid-template-columns:minmax(0,1fr)}.varis-levha,.durum{width:fit-content}
+
+/* UX incelemesi düzeltmeleri */
+@media (max-width:599px){.hero>.durum{display:none}}
+.alt-cubuk{transition:transform .2s ease}
+.alt-cubuk.gizli{transform:translateY(110%)}
+@media (min-width:860px){.alt-cubuk{display:none}body{padding-bottom:0}}
+@media (prefers-reduced-motion:reduce){.alt-cubuk{transition:none}}
+.tus[disabled]{opacity:.65;cursor:progress}
+.menu-mobil nav a.menu-ara{background:var(--turuncu);color:#111;font-family:var(--font-baslik);font-size:1.2rem;text-transform:uppercase;margin-bottom:4px}
+.menu-mobil nav a{min-height:44px;display:flex;align-items:center}
+.tus small,.ust-tel .num,.nap a[href^="tel"],.kunye a[href^="tel"]{font-family:var(--font-baslik);font-weight:700;letter-spacing:.03em;font-variant-numeric:tabular-nums}
+.tus small{font-size:1.05rem;white-space:nowrap}
+.cagri .tus{text-align:center}
+.cagri .tus span{display:grid}
+.sorun{position:relative;padding-right:30px}
+.sorun .ok{position:absolute;right:12px;top:14px;font-style:normal;color:var(--sari);font-size:1.5rem;line-height:1}
+.hero .varis-levha{padding:6px 12px;gap:10px;border-width:2px;border-radius:6px}
+.hero .varis-levha b{font-size:1.7rem}
+.hero .varis-levha span{font-size:.85rem}
+.google-kart{max-width:none}
+.google-tuslar .yorum-link{align-self:center;justify-self:center;padding:10px 4px;color:var(--sari);font-weight:700}
+.alt-cubuk .ic{grid-template-columns:1fr 1fr}
+.alt-cubuk .tus{font-size:1.2rem;white-space:nowrap}
+.menu-mobil nav{min-width:240px}
+.menu-mobil nav a.menu-ara{white-space:nowrap;font-size:1.1rem}

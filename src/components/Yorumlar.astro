@@ -24,7 +24,7 @@ const puan = business.googleRating > 0 && business.googleReviewCount > 0;
       <p class="soluk">{bolge ? `${bolge} dahil tüm hizmet bölgemizde` : 'Anadolu Yakası, Gebze ve İzmit’te'} Google Haritalar’da “Kaya Oto Lastik Mobil Yol Yardım” adıyla görünüyoruz. Hizmetimizden memnun kaldıysanız kısa bir yorum, yolda kalan bir sonraki sürücünün bizi bulmasını sağlar.</p>
       <div class="google-tuslar">
         {harita && <a class="tus tus-ikincil" href={harita} rel="noopener" data-olcum="harita">Haritalarda aç</a>}
-        {yorum && <a class="tus tus-ikincil" href={yorum} rel="noopener" data-olcum="yorum">Yorum yaz</a>}
+        {yorum && <a class="yorum-link" href={yorum} rel="noopener" data-olcum="yorum">Bize yorum yazın →</a>}
       </div>
     </div>
   </section>
