@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers statik varlık yayını: yalnızca dist/ klasörünü sunar, sunucu kodu yok.
+  "name": "kayaotolastik-site",
+  "compatibility_date": "2025-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
