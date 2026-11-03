@@ -1,0 +1,7 @@
+---
+import { bands } from '../data/site';
+interface Props { band: string; text: string }
+const { band, text } = Astro.props;
+const b = bands.find((x) => x.id === band)!;
+---
+<div class="varis-levha"><b>{b.label}</b><span set:html={text} /></div>

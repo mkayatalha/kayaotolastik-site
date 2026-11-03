@@ -1,0 +1,237 @@
+---
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/barlow-condensed/800.css';
+import '@fontsource/atkinson-hyperlegible/400.css';
+import '@fontsource/atkinson-hyperlegible/700.css';
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { business, analytics, nav, otherAreas } from '../data/site';
+import { hizmetler } from '../data/hizmetler';
+import { bolgeler } from '../data/bolgeler';
+import { yollar } from '../data/yollar';
+
+interface Props {
+  title: string;
+  description: string;
+  breadcrumbs?: { name: string; path: string }[];
+  schema?: Record<string, unknown>[];
+  ogType?: string;
+  noindex?: boolean;
+}
+const { title, description, breadcrumbs = [], schema = [], ogType = 'website', noindex = false } = Astro.props;
+const site = Astro.site!.toString().replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const waBase = `https://wa.me/${business.whatsapp}`;
+
+const isletme = {
+  '@context': 'https://schema.org',
+  '@type': 'AutomotiveBusiness',
+  '@id': `${site}/#isletme`,
+  name: business.name,
+  legalName: business.legalName,
+  url: `${site}/`,
+  telephone: business.phoneE164,
+  image: `${site}/og.png`,
+  logo: `${site}/icon-512.png`,
+  description: 'Tuzla merkezli 7/24 mobil lastik ve akü yardımı: lastik tamiri, akü takviyesi, akü değişimi, yeni ve çıkma lastik.',
+  address: { '@type': 'PostalAddress', addressLocality: business.base, addressRegion: business.city, addressCountry: 'TR' },
+  areaServed: [
+    ...bolgeler.map((b) => ({ '@type': 'City', name: `${b.name}, ${b.il}` })),
+    ...otherAreas.map((n) => ({ '@type': 'City', name: n })),
+  ],
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '00:00',
+    closes: '23:59',
+  }],
+  contactPoint: { '@type': 'ContactPoint', telephone: business.phoneE164, contactType: 'customer service', availableLanguage: 'Turkish', hoursAvailable: 'Mo-Su 00:00-23:59' },
+  ...(business.googleProfile || business.instagram ? { sameAs: [business.googleProfile, business.instagram].filter(Boolean) } : {}),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Mobil lastik ve akü hizmetleri',
+    itemListElement: hizmetler.map((h) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: h.name, url: `${site}/${h.slug}/` } })),
+  },
+};
+
+const crumbs = breadcrumbs.length
+  ? [{
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ name: 'Ana sayfa', path: '/' }, ...breadcrumbs].map((b, i) => ({
+        '@type': 'ListItem', position: i + 1, name: b.name, item: `${site}${b.path}`,
+      })),
+    }]
+  : [];
+const jsonLd = [isletme, ...crumbs, ...schema];
+---
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#15171a" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:locale" content="tr_TR" />
+  <meta property="og:site_name" content={business.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={`${site}/og.png`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  {analytics.ga4Id && (
+    <>
+      <script is:inline define:vars={{ id: analytics.ga4Id }}>
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        var granted = false;
+        try { granted = localStorage.getItem('cerez-onay') === 'evet'; } catch (e) {}
+        gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: granted ? 'granted' : 'denied' });
+        gtag('js', new Date());
+        gtag('config', id);
+      </script>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.ga4Id}`}></script>
+    </>
+  )}
+  {analytics.cloudflareToken && (
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: analytics.cloudflareToken })}></script>
+  )}
+</head>
+<body>
+  <a class="skip" href="#icerik">İçeriğe geç</a>
+  <div class="serit" aria-hidden="true"></div>
+  <header class="ust">
+    <div class="kap">
+      <a class="logo" href="/" aria-label={`${business.name} ana sayfa`}>
+        <span class="logo-isaret" aria-hidden="true"><b>K</b></span>
+        <span class="logo-ad">{business.shortName}<small>Mobil Yol Yardım · 7/24</small></span>
+      </a>
+      <div class="ust-sag">
+        <nav class="menu-ust" aria-label="Ana menü">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+        <a class="ust-tel" href={`tel:${business.phoneE164}`} data-olcum="ara"><span class="canli" aria-hidden="true"></span><span class="num">{business.phone}</span><span class="kisa">Ara</span></a>
+        <details class="menu-mobil">
+          <summary aria-label="Menüyü aç">Menü</summary>
+          <nav aria-label="Mobil menü">
+            {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+          </nav>
+        </details>
+      </div>
+    </div>
+  </header>
+
+  <main id="icerik">
+    <slot />
+  </main>
+
+  <footer>
+    <div class="kap">
+      <div class="alt-izgara">
+        <div class="nap">
+          <b>{business.name}</b><br />
+          Tuzla merkezli mobil hizmet · 7 gün 24 saat<br />
+          <a href={`tel:${business.phoneE164}`} data-olcum="ara">{business.phone}</a><br />
+          <a href={waBase} data-olcum="whatsapp" rel="noopener">WhatsApp</a>
+        </div>
+        <div>
+          <h2>Hizmetler</h2>
+          <ul>{hizmetler.map((h) => <li><a href={`/${h.slug}/`}>{h.name}</a></li>)}</ul>
+        </div>
+        <div>
+          <h2>Bölgeler</h2>
+          <ul>{bolgeler.map((b) => <li><a href={`/bolgeler/${b.slug}/`}>{b.name}</a></li>)}</ul>
+        </div>
+        <div>
+          <h2>Yollar</h2>
+          <ul>{yollar.map((y) => <li><a href={`/yollar/${y.slug}/`}>{y.name}</a></li>)}</ul>
+          <h2 style="margin-top:14px">Kurumsal</h2>
+          <ul><li><a href="/hakkimizda/">Hakkımızda</a></li><li><a href="/bolgeler/">Tüm hizmet bölgesi</a></li></ul>
+        </div>
+      </div>
+      <div class="yasal">
+        <span>{business.legalName} · © {new Date().getFullYear()}</span>
+        <a href="/kvkk/">KVKK aydınlatma metni</a>
+        <a href="/cerez-politikasi/">Çerez politikası</a>
+        {analytics.ga4Id && <button type="button" data-cerez-ac>Çerez tercihleri</button>}
+      </div>
+    </div>
+  </footer>
+
+  <div class="alt-cubuk" role="region" aria-label="Hızlı iletişim">
+    <div class="ic">
+      <a class="tus tus-ara" href={`tel:${business.phoneE164}`} data-olcum="ara"><Icon name="tel" /><span>Hemen ara</span></a>
+      <button class="tus tus-wa" type="button" data-konum><Icon name="konum" /><span>Konum at</span></button>
+    </div>
+  </div>
+
+  <div class="bildirim" id="bildirim" role="status" aria-live="polite"></div>
+
+  {analytics.ga4Id && (
+    <div class="onay" id="onay" hidden>
+      <p>Siteyi geliştirmek için ziyaret istatistikleri tutmak istiyoruz. Onay vermezseniz yalnızca zorunlu işlevler çalışır. <a href="/cerez-politikasi/">Ayrıntılar</a></p>
+      <div><button type="button" data-onay="hayir">Reddet</button><button type="button" class="evet" data-onay="evet">Kabul et</button></div>
+    </div>
+  )}
+
+  <script is:inline define:vars={{ WA: business.whatsapp }}>
+    (function () {
+      function olcum(tur) {
+        if (typeof window.gtag === 'function') window.gtag('event', 'iletisim_tiklama', { yontem: tur, sayfa: location.pathname });
+      }
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('[data-olcum]');
+        if (a) olcum(a.getAttribute('data-olcum'));
+      });
+
+      var bildirim = document.getElementById('bildirim');
+      function haber(t) { bildirim.textContent = t; bildirim.classList.add('goster'); setTimeout(function () { bildirim.classList.remove('goster'); }, 3500); }
+      function whatsapp(metin) { location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(metin); }
+
+      // Konum yalnızca düğmeye basılınca istenir; izin yoksa konumsuz mesaj açılır.
+      document.querySelectorAll('[data-konum]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          olcum('whatsapp_konum');
+          var temel = 'Merhaba, yolda kaldım. Yardım istiyorum.';
+          if (!('geolocation' in navigator)) { whatsapp(temel + ' (Konumu ayrıca gönderiyorum.)'); return; }
+          haber('Konumunuz alınıyor…');
+          navigator.geolocation.getCurrentPosition(function (p) {
+            var u = 'https://maps.google.com/?q=' + p.coords.latitude.toFixed(5) + ',' + p.coords.longitude.toFixed(5);
+            whatsapp(temel + ' Konumum: ' + u);
+          }, function () {
+            haber('Konum alınamadı. WhatsApp\'ta ataç simgesinden konum paylaşabilirsiniz.');
+            setTimeout(function () { whatsapp(temel + ' (Konumu ayrıca gönderiyorum.)'); }, 1200);
+          }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 });
+        });
+      });
+
+      var onay = document.getElementById('onay');
+      if (onay) {
+        var kayit = null;
+        try { kayit = localStorage.getItem('cerez-onay'); } catch (e) {}
+        if (!kayit) onay.hidden = false;
+        onay.addEventListener('click', function (e) {
+          var v = e.target.getAttribute && e.target.getAttribute('data-onay');
+          if (!v) return;
+          try { localStorage.setItem('cerez-onay', v); } catch (e2) {}
+          if (window.gtag) window.gtag('consent', 'update', { analytics_storage: v === 'evet' ? 'granted' : 'denied' });
+          onay.hidden = true;
+        });
+        document.querySelectorAll('[data-cerez-ac]').forEach(function (b) { b.addEventListener('click', function () { onay.hidden = false; }); });
+      }
+    })();
+  </script>
+</body>
+</html>

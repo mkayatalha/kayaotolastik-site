@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import CallButtons from '../components/CallButtons.astro';
+import Faq from '../components/Faq.astro';
+import Foto from '../components/Foto.astro';
+import { hizmetler, type Hizmet } from '../data/hizmetler';
+import { bolgeler, bolgeBySlug } from '../data/bolgeler';
+import { bands } from '../data/site';
+import { rehberBySlug } from '../data/rehber';
+
+export function getStaticPaths() {
+  return hizmetler.map((h) => ({ params: { hizmet: h.slug }, props: { h } }));
+}
+const { h } = Astro.props as { h: Hizmet };
+const site = Astro.site!.toString().replace(/\/$/, '');
+const yakin = ['tuzla', 'pendik', 'gebze', 'cayirova'].map(bolgeBySlug);
+const rehber = h.guide ? rehberBySlug(h.guide) : null;
+const digerleri = hizmetler.filter((x) => x.slug !== h.slug);
+const bandLabel = (id: string) => bands.find((b) => b.id === id)!.label;
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${site}/${h.slug}/#hizmet`,
+  name: h.name,
+  serviceType: h.name,
+  description: h.metaDescription,
+  url: `${site}/${h.slug}/`,
+  provider: { '@id': `${site}/#isletme` },
+  areaServed: bolgeler.map((b) => ({ '@type': 'City', name: `${b.name}, ${b.il}` })),
+  hoursAvailable: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '00:00', closes: '23:59' },
+}];
+---
+<Base title={h.metaTitle} description={h.metaDescription} breadcrumbs={[{ name: h.name, path: `/${h.slug}/` }]} schema={schema}>
+  <Crumbs items={[{ name: h.name }]} />
+  <section class="kap hero">
+    <span class="durum"><span class="canli" aria-hidden="true"></span> 7/24 · {h.name}</span>
+    <h1>{h.h1}</h1>
+    <p class="giris">{h.lead}</p>
+    <CallButtons />
+  </section>
+
+  <section class="kap bolum" aria-labelledby="h-ne-zaman">
+    <div>
+      <p class="ust-yazi">Hangi durumda?</p>
+      <h2 id="h-ne-zaman">Ne zaman {h.name.toLocaleLowerCase('tr')} gerekir</h2>
+    </div>
+    <div class="iki">
+      <ul class="liste">{h.when.map((w) => <li>{w}</li>)}</ul>
+      <div class="bilgi"><b>Ne kadar sürer?</b><p>{h.duration}</p></div>
+    </div>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="h-nasil">
+    <div>
+      <p class="ust-yazi">Yerinde nasıl yapıyoruz</p>
+      <h2 id="h-nasil">Adım adım</h2>
+    </div>
+    <ol class="adimlar">{h.steps.map((s) => <li><h3>{s.t}</h3><p>{s.d}</p></li>)}</ol>
+    <div class="bilgi"><b>Ne zaman yerinde çözülemez?</b><p>{h.limits}</p></div>
+  </section>
+
+  {h.extra && (
+    <section class="kap bolum" aria-labelledby="h-ek">
+      <h2 id="h-ek">{h.extra.h}</h2>
+      <div class="prose">{h.extra.p.map((p) => <p>{p}</p>)}</div>
+    </section>
+  )}
+
+  <section class="kap bolum" aria-labelledby="h-foto">
+    <div>
+      <p class="ust-yazi">İşten bir kare</p>
+      <h2 id="h-foto">{h.name} yerinde</h2>
+    </div>
+    <Foto title={h.photo.t} note={h.photo.d} />
+  </section>
+
+  <section class="kap bolum" aria-labelledby="h-bolge">
+    <div>
+      <p class="ust-yazi">En hızlı geldiğimiz yerler</p>
+      <h2 id="h-bolge">{h.name}: yakın bölgeler</h2>
+    </div>
+    <div class="kartlar">
+      {yakin.map((b) => (
+        <a class="kart" href={`/bolgeler/${b.slug}/`}><span class="sure">{bandLabel(b.band)}</span><b>{b.name}</b><span>{b.noktalar.slice(0, 2).map((n) => n.b).join(' · ')}</span></a>
+      ))}
+    </div>
+    <p class="not">Kadıköy'den İzmit'e kadar diğer ilçeler için <a href="/bolgeler/">hizmet bölgesine</a> bakın.</p>
+  </section>
+
+  {rehber && (
+    <section class="kap bolum" aria-labelledby="h-rehber">
+      <div><p class="ust-yazi">Kısa rehber</p><h2 id="h-rehber">Bilmekte fayda var</h2></div>
+      <a class="rehber" href={`/rehber/${rehber.slug}/`}><span>{rehber.minutes} dk okuma</span><h3>{rehber.title}</h3><p>{rehber.cardText}</p></a>
+    </section>
+  )}
+
+  <Faq items={h.faq} id="h-sss" title={`${h.name} hakkında`} />
+
+  <section class="kap bolum" aria-labelledby="h-diger">
+    <h2 id="h-diger">Diğer hizmetler</h2>
+    <ul class="hizmet-satir">
+      {digerleri.map((d) => <li><a href={`/${d.slug}/`}><span><b>{d.name}</b><small>{d.card}</small></span><i aria-hidden="true">›</i></a></li>)}
+    </ul>
+  </section>
+</Base>

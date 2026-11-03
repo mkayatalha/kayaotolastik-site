@@ -1,0 +1,16 @@
+---
+import Icon from './Icon.astro';
+import { business } from '../data/site';
+interface Props { konumNot?: string }
+const { konumNot = "WhatsApp'ta harita linkiyle" } = Astro.props;
+---
+<div class="tuslar">
+  <a class="tus tus-ara" href={`tel:${business.phoneE164}`} data-olcum="ara">
+    <Icon name="tel" />
+    <span>Hemen ara<small>{business.phone}</small></span>
+  </a>
+  <button class="tus tus-wa" type="button" data-konum>
+    <Icon name="konum" />
+    <span>Konumumu gönder<small>{konumNot}</small></span>
+  </button>
+</div>

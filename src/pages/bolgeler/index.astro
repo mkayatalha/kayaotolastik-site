@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import CallButtons from '../../components/CallButtons.astro';
+import { bolgeler } from '../../data/bolgeler';
+import { yollar } from '../../data/yollar';
+import { bands } from '../../data/site';
+
+const sayfasiz: Record<string, { n: string; s: string }[]> = {
+  orta: [{ n: 'Dilovası', s: 'Organize sanayi ve Osmangazi bağlantısı' }],
+  uzak: [{ n: 'Darıca', s: 'Gebze sayfasında anılır; süre Gebze\'ye yakın' }, { n: 'Derince', s: 'İzmit sayfasında anılır' }],
+};
+const diger = ['Ümraniye', 'Sancaktepe', 'Sultanbeyli', 'Çekmeköy', 'Beykoz'];
+---
+<Base
+  title="Hizmet Bölgesi ve Varış Süreleri · Anadolu Yakası, Gebze, İzmit | Kaya Oto Lastik"
+  description="Tuzla merkezli mobil lastik ve akü ekibimizin hizmet bölgesi: Anadolu Yakası'ndan Gebze ve İzmit'e kadar ilçeler, otoyollar ve tahmini varış süreleri."
+  breadcrumbs={[{ name: 'Bölgeler', path: '/bolgeler/' }]}
+>
+  <Crumbs items={[{ name: 'Bölgeler' }]} />
+  <section class="kap hero">
+    <h1>Hizmet bölgemiz ve varış süreleri</h1>
+    <p class="giris"><strong>Üssümüz Tuzla'da.</strong> Anadolu Yakası'ndan Gebze ve İzmit'e kadar yolda kaldığınız yere geliyoruz. Süreler ortalamadır; aradığınızda o anki net süreyi söyleriz.</p>
+    <CallButtons />
+  </section>
+
+  {bands.map((band) => (
+    <section class="kap bolum" aria-labelledby={`bant-${band.id}`}>
+      <div class="varis-levha"><b id={`bant-${band.id}`}>{band.label}</b><span>{band.note}</span></div>
+      <div class="kartlar uc">
+        {bolgeler.filter((b) => b.band === band.id).map((b) => (
+          <a class="kart" href={`/bolgeler/${b.slug}/`}><b>{b.name}</b><span>{b.il} · {b.mahalleler.slice(0, 4).join(', ')}</span></a>
+        ))}
+        {(sayfasiz[band.id] || []).map((x) => <div class="kart"><b>{x.n}</b><span>{x.s}</span></div>)}
+      </div>
+    </section>
+  ))}
+
+  <section class="kap bolum" aria-labelledby="b-diger">
+    <h2 id="b-diger">Diğer ilçeler</h2>
+    <p class="giris-p">{diger.join(', ')} ilçelerine de geliyoruz. Varış süresi konumunuza göre değişir; aradığınızda net süreyi söyleriz. Şile hizmet bölgemizde değildir.</p>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="b-yol">
+    <h2 id="b-yol">Otoyollar</h2>
+    <div class="kartlar uc">
+      {yollar.map((y) => <a class="kart" href={`/yollar/${y.slug}/`}><b>{y.name}</b><span>{y.short}</span></a>)}
+    </div>
+  </section>
+</Base>

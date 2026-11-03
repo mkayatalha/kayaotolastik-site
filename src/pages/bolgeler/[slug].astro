@@ -1,0 +1,112 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import CallButtons from '../../components/CallButtons.astro';
+import Faq from '../../components/Faq.astro';
+import Foto from '../../components/Foto.astro';
+import Varis from '../../components/Varis.astro';
+import { bolgeler, bolgeBySlug, type Bolge } from '../../data/bolgeler';
+import { hizmetler } from '../../data/hizmetler';
+import { yolBySlug } from '../../data/yollar';
+import { bands } from '../../data/site';
+
+export function getStaticPaths() {
+  return bolgeler.map((b) => ({ params: { slug: b.slug }, props: { b } }));
+}
+const { b } = Astro.props as { b: Bolge };
+const site = Astro.site!.toString().replace(/\/$/, '');
+const komsular = b.komsular.map(bolgeBySlug);
+const yollar = b.yollar.map(yolBySlug);
+const bandLabel = (id: string) => bands.find((x) => x.id === id)!.label;
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${site}/bolgeler/${b.slug}/#hizmet`,
+  name: `${b.name} mobil lastik ve akü yardımı`,
+  serviceType: 'Mobil lastik ve akü yardımı',
+  description: b.metaDescription,
+  url: `${site}/bolgeler/${b.slug}/`,
+  provider: { '@id': `${site}/#isletme` },
+  areaServed: { '@type': 'City', name: `${b.name}, ${b.il}` },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `${b.name} hizmetleri`,
+    itemListElement: hizmetler.map((h) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: `${b.name} ${h.name.toLocaleLowerCase('tr')}`, url: `${site}/${h.slug}/` } })),
+  },
+}];
+---
+<Base title={b.metaTitle} description={b.metaDescription} breadcrumbs={[{ name: 'Bölgeler', path: '/bolgeler/' }, { name: b.name, path: `/bolgeler/${b.slug}/` }]} schema={schema}>
+  <Crumbs items={[{ name: 'Bölgeler', path: '/bolgeler/' }, { name: b.name }]} />
+  <section class="kap hero">
+    <span class="durum"><span class="canli" aria-hidden="true"></span> Şu an açık · {b.name} · {b.il}</span>
+    <h1>{b.h1}</h1>
+    <p class="giris">{b.lead}</p>
+    <Varis band={b.band} text={`${b.name} için<br>ortalama varış`} />
+    <CallButtons />
+  </section>
+
+  <section class="kap bolum" aria-labelledby="t-hizmet">
+    <div>
+      <p class="ust-yazi">{b.locative} yaptıklarımız</p>
+      <h2 id="t-hizmet">Hizmetler</h2>
+    </div>
+    <ul class="hizmet-satir">
+      {hizmetler.map((h) => <li><a href={`/${h.slug}/`}><span><b>{h.name}</b><small>{h.card}</small></span><i aria-hidden="true">›</i></a></li>)}
+    </ul>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="t-hakkinda">
+    <div>
+      <p class="ust-yazi">{b.name} ve biz</p>
+      <h2 id="t-hakkinda">{b.ablative} gelen çağrılar</h2>
+    </div>
+    <div class="iki">
+      <div class="prose">
+        {b.body.map((p) => <p>{p}</p>)}
+        <p><strong>Nasıl geliyoruz:</strong> {b.route}</p>
+      </div>
+      <div class="bilgi"><b>En sık durum: {b.yaygin.t}</b><p>{b.yaygin.d}</p></div>
+    </div>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="t-nokta">
+    <div>
+      <p class="ust-yazi">Bölgeyi tanıyoruz</p>
+      <h2 id="t-nokta">En çok çağrıldığımız noktalar</h2>
+    </div>
+    <div class="iki">
+      <ul class="noktalar">
+        {b.noktalar.map((n) => <li><b>{n.b}</b><span>{n.s}</span></li>)}
+      </ul>
+      <div style="display:grid;gap:12px">
+        <h3>Gittiğimiz mahalleler</h3>
+        <ul class="mahalleler">{b.mahalleler.map((m) => <li>{m}</li>)}</ul>
+        {b.anilan && <p class="not">Yakındaki {b.anilan.join(', ')} için de arayabilirsiniz.</p>}
+      </div>
+    </div>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="t-foto">
+    <div>
+      <p class="ust-yazi">{b.ablative} bir iş</p>
+      <h2 id="t-foto">{b.locative} sahadayız</h2>
+    </div>
+    <Foto title={`Gerçek iş fotoğrafı (${b.name})`} note={b.photo} />
+  </section>
+
+  <Faq items={b.faq} id="t-sss" kicker={`${b.name} için sorular`} title="Sık sorulanlar" />
+
+  <section class="kap bolum" aria-labelledby="t-yakin">
+    <div>
+      <p class="ust-yazi">Yakın bölgeler</p>
+      <h2 id="t-yakin">{b.name} çevresinde de varız</h2>
+    </div>
+    <ul class="baglar">
+      {komsular.map((k) => <li><a href={`/bolgeler/${k.slug}/`}>{k.name} · {bandLabel(k.band)}</a></li>)}
+    </ul>
+    <ul class="baglar yollar">
+      {yollar.map((y) => <li><a href={`/yollar/${y.slug}/`}>{y.name}</a></li>)}
+    </ul>
+  </section>
+</Base>

@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { analytics } from '../data/site';
+---
+<Base title="Çerez Politikası | Kaya Oto Lastik" description="Kaya Oto Lastik Mobil Yol Yardım sitesinde kullanılan çerezler ve tercihleriniz." breadcrumbs={[{ name: 'Çerez politikası', path: '/cerez-politikasi/' }]}>
+  <Crumbs items={[{ name: 'Çerez politikası' }]} />
+  <section class="kap bolum metin-sayfa">
+    <h1>Çerez politikası</h1>
+    <p class="tarih">Son güncelleme: 3 Kasım 2026</p>
+    <p>Bu site hızlı açılması için sade tutulmuştur. Reklam çerezi kullanmıyoruz ve sizi başka sitelerde takip etmiyoruz.</p>
+    <h2>Zorunlu kayıtlar</h2>
+    <p>Çerez tercihinizi hatırlamak için tarayıcınızda küçük bir kayıt (localStorage) tutulur. Site güvenliği için barındırma hizmetimiz Cloudflare zorunlu teknik çerezler kullanabilir.</p>
+    {analytics.ga4Id ? (
+      <>
+        <h2>İstatistik çerezleri (onaya bağlı)</h2>
+        <p>Onay verirseniz, siteyi nasıl kullandığınızı anlamak için Google Analytics çerezleri kullanılır. Onay vermezseniz bu çerezler yüklenmez. Tercihinizi sayfanın altındaki "Çerez tercihleri" bağlantısından her zaman değiştirebilirsiniz.</p>
+      </>
+    ) : (
+      <>
+        <h2>İstatistik</h2>
+        <p>Şu anda istatistik çerezi kullanılmamaktadır. Kullanılmaya başlanırsa yalnızca onayınızla çalışacak ve bu sayfa güncellenecektir.</p>
+      </>
+    )}
+    <h2>Konum</h2>
+    <p>"Konumumu gönder" düğmesi çerez kullanmaz. Konumunuz yalnızca düğmeye bastığınızda ve izin verdiğinizde alınır, yalnızca WhatsApp mesajınıza eklenir. Ayrıntılar için <a href="/kvkk/">KVKK aydınlatma metni</a>.</p>
+  </section>
+</Base>

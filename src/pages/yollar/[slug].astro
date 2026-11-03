@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import CallButtons from '../../components/CallButtons.astro';
+import Faq from '../../components/Faq.astro';
+import Foto from '../../components/Foto.astro';
+import { yollar, type Yol } from '../../data/yollar';
+import { bolgeBySlug } from '../../data/bolgeler';
+import { bands } from '../../data/site';
+
+export function getStaticPaths() {
+  return yollar.map((y) => ({ params: { slug: y.slug }, props: { y } }));
+}
+const { y } = Astro.props as { y: Yol };
+const site = Astro.site!.toString().replace(/\/$/, '');
+const bandLabel = (id: string) => bands.find((x) => x.id === id)!.label;
+const ilceler = y.bolgeler.map(bolgeBySlug);
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${site}/yollar/${y.slug}/#hizmet`,
+  name: `${y.name} lastik ve akü yardımı`,
+  serviceType: 'Mobil yol yardım (lastik ve akü)',
+  description: y.metaDescription,
+  url: `${site}/yollar/${y.slug}/`,
+  provider: { '@id': `${site}/#isletme` },
+  areaServed: ilceler.map((b) => ({ '@type': 'City', name: `${b.name}, ${b.il}` })),
+}];
+---
+<Base title={y.metaTitle} description={y.metaDescription} breadcrumbs={[{ name: y.name, path: `/yollar/${y.slug}/` }]} schema={schema}>
+  <Crumbs items={[{ name: 'Yollar', path: '/bolgeler/' }, { name: y.name }]} />
+  <section class="kap hero">
+    <span class="durum"><span class="canli" aria-hidden="true"></span> 7/24 · {y.name}</span>
+    <h1>{y.h1}</h1>
+    <p class="giris">{y.lead}</p>
+    <CallButtons konumNot="Nerede olduğunuzu tarif etmeden" />
+  </section>
+
+  <section class="kap bolum" aria-labelledby="y-once">
+    <div><p class="ust-yazi">Önce güvenlik</p><h2 id="y-once">Yolda kaldıysanız</h2></div>
+    <div class="prose">{y.body.map((p) => <p>{p}</p>)}</div>
+    <p class="not"><a href="/rehber/otoyolda-arac-bozuldu/">Otoyolda araç bozulunca adım adım ne yapmalı →</a></p>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="y-kesim">
+    <div><p class="ust-yazi">Kesimlere göre</p><h2 id="y-kesim">Tahmini varış süreleri</h2></div>
+    <ul class="kesimler">
+      {y.kesimler.map((k) => <li><span><b>{k.b}</b><span>{k.s}</span></span><i>{bandLabel(k.band)}</i></li>)}
+    </ul>
+    <p class="not">Süreler Tuzla'daki üssümüzden ortalamadır. Aradığınızda o anki net süreyi ve nerede buluşacağımızı söyleriz.</p>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="y-foto">
+    <h2 id="y-foto">Sahadan</h2>
+    <Foto title={`${y.name} çevresinde iş`} note={y.photo} />
+  </section>
+
+  <Faq items={y.faq} id="y-sss" kicker={`${y.name} için sorular`} title="Sık sorulanlar" />
+
+  <section class="kap bolum" aria-labelledby="y-ilce">
+    <h2 id="y-ilce">Bu yol üzerindeki ilçeler</h2>
+    <ul class="baglar">{ilceler.map((b) => <li><a href={`/bolgeler/${b.slug}/`}>{b.name} · {bandLabel(b.band)}</a></li>)}</ul>
+  </section>
+</Base>

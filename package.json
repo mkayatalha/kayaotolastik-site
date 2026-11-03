@@ -1,0 +1,15 @@
+{
+  "name": "kayaotolastik-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/atkinson-hyperlegible": "5.2.6",
+    "@fontsource/barlow-condensed": "5.2.6",
+    "astro": "5.18.2"
+  }
+}

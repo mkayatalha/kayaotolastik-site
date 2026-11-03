@@ -1,0 +1,140 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CallButtons from '../components/CallButtons.astro';
+import Faq from '../components/Faq.astro';
+import Foto from '../components/Foto.astro';
+import { business, bands, otherAreas } from '../data/site';
+import { hizmetler } from '../data/hizmetler';
+import { bolgeler } from '../data/bolgeler';
+import { yollar } from '../data/yollar';
+import { rehberler } from '../data/rehber';
+
+const ekstra: Record<string, string[]> = { orta: ['Dilovası'] };
+const sss = [
+  { q: 'Gece de geliyor musunuz?', a: 'Evet. 7 gün 24 saat çalışıyoruz; gece, hafta sonu ve bayramlarda da aynı numaradan ulaşırsınız.' },
+  { q: 'Fiyatı nasıl öğrenirim?', a: 'Arayın, aracı ve sorunu söyleyin. Lastik ölçüsüne, akü tipine ve bulunduğunuz yere göre net fiyatı telefonda söyleriz. Gelince sürpriz ücret çıkmaz.' },
+  { q: 'Ne kadar sürede gelirsiniz?', a: 'Tuzla, Pendik, Çayırova ve Gebze\'ye genellikle 20–30 dakikada; Kartal, Maltepe ve Dilovası\'na 30–40 dakikada; Kadıköy, Üsküdar, Ataşehir, Körfez ve İzmit\'e 45–60 dakikada geliyoruz. Aradığınızda o anki net süreyi söyleriz.' },
+  { q: 'Akü mü bitti, marş mı bozuk, nasıl anlarım?', a: 'Kontağı çevirdiğinizde ışıklar sönük ve marş hiç dönmüyorsa genelde akü bitmiştir. Işıklar parlak ama araç tek bir tık sesi çıkarıyorsa marş olabilir. Arayın, birkaç soruyla ayırt edelim.' },
+  { q: 'Çekici hizmetiniz var mı?', a: 'Hayır. Lastik ve akü sorunlarını yerinde çözüyoruz; çekici, yakıt ikmali ve kapı açma hizmeti vermiyoruz. Aracınızın çekilmesi gerekiyorsa bunu telefonda dürüstçe söyleriz.' },
+  { q: 'Kaskonun yol yardımı varken neden sizi arayayım?', a: 'İkisini de arayabilirsiniz. Kasko yol yardımı çoğunlukla aracı çekiciyle götürmeye odaklıdır ve sıra beklenebilir. Sorun lastik ya da aküyse biz yerinde çözer, sizi yolunuza devam ettiririz.' },
+];
+---
+<Base
+  title="7/24 Seyyar Lastikçi ve Akü Takviyesi · Anadolu Yakası, Gebze, İzmit | Kaya Oto Lastik"
+  description="Lastik patladı, akü bitti mi? Tuzla merkezli mobil ekibimiz Anadolu Yakası, Gebze ve İzmit'te 7/24 yanınıza gelir: lastik tamiri, akü takviyesi ve değişimi, yeni ve çıkma lastik."
+>
+  <section class="kap hero">
+    <span class="durum"><span class="canli" aria-hidden="true"></span> Şu an açık · 7 gün 24 saat</span>
+    <h1>Lastik patladı, akü bitti? Usta yanınıza gelsin.</h1>
+    <p class="giris"><strong>Tuzla merkezli seyyar lastikçi ve akücü.</strong> Anadolu Yakası'ndan Gebze ve İzmit'e kadar yolda kaldığınız yerde lastik tamiri, lastik değişimi, akü takviyesi ve akü değişimi yapıyoruz.</p>
+    <CallButtons />
+    <ul class="guven">
+      <li>Fiyat telefonda net söylenir</li>
+      <li>Ekipmanlı servis aracı</li>
+      <li>Gece, hafta sonu, bayram</li>
+    </ul>
+  </section>
+
+  <section class="kap bolum" id="hizmetler" aria-labelledby="b-sorun">
+    <div>
+      <p class="ust-yazi">Ne oldu?</p>
+      <h2 id="b-sorun">Sorununuzu seçin</h2>
+    </div>
+    <div class="sorunlar">
+      {hizmetler.map((h) => (
+        <a class="sorun" href={`/${h.slug}/`}><Icon name={h.icon} /><b>{h.problem}</b><span>{h.card}</span></a>
+      ))}
+    </div>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="b-varis">
+    <div>
+      <p class="ust-yazi">Ne kadar sürede gelirsiniz?</p>
+      <h2 id="b-varis">Tahmini varış süreleri</h2>
+    </div>
+    <div class="levhalar">
+      {bands.map((b) => (
+        <div class="levha">
+          <div class="levha-ust"><b>{b.label}</b><span>{b.note}</span></div>
+          <ul>
+            {bolgeler.filter((x) => x.band === b.id).map((x) => <li><a href={`/bolgeler/${x.slug}/`}>{x.name}</a></li>)}
+            {(ekstra[b.id] || []).map((n) => <li>{n}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <p class="not">Süreler Tuzla'daki üssümüzden ortalamadır; trafiğe ve ekibin o anki işine göre değişir. Aradığınızda size net bir süre söyleriz. {otherAreas.slice(0, 5).join(', ')} için de arayabilirsiniz.</p>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="b-nasil">
+    <div>
+      <p class="ust-yazi">Nasıl çalışıyoruz</p>
+      <h2 id="b-nasil">Üç adımda yolunuza dönün</h2>
+    </div>
+    <ol class="adimlar">
+      <li><h3>Arayın ya da konum atın</h3><p>Aracın markasını, lastik ölçüsünü ya da sorunu kısaca anlatın.</p></li>
+      <li><h3>Fiyatı baştan öğrenin</h3><p>Telefonda net fiyat ve varış süresi söylenir. Sürpriz ücret yok.</p></li>
+      <li><h3>Usta yerinde çözer</h3><p>Servis aracıyla gelir, işi bulunduğunuz yerde bitirir.</p></li>
+    </ol>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="b-foto">
+    <div>
+      <p class="ust-yazi">Servis aracımız ve işlerimiz</p>
+      <h2 id="b-foto">Yolda gerçekten biz geliyoruz</h2>
+    </div>
+    <div class="foto-izgara">
+      <Foto title="Servis aracı" note="Giydirilmiş araç, yan profilden" ratio="16/9" />
+      <Foto title="Usta iş başında" note="Yol kenarında lastik değişimi" ratio="4/3" />
+      <Foto title="Akü takviyesi" note="Kaput açık, takviye cihazı" ratio="4/3" />
+    </div>
+  </section>
+
+  <section class="kap bolum" aria-labelledby="b-bolge">
+    <div>
+      <p class="ust-yazi">Hizmet bölgesi</p>
+      <h2 id="b-bolge">İlçeler ve yollar</h2>
+    </div>
+    <div class="iki">
+      <div style="display:grid;gap:12px">
+        <h3>İlçeler</h3>
+        <ul class="baglar">
+          {bolgeler.map((b) => <li><a href={`/bolgeler/${b.slug}/`}>{b.name}</a></li>)}
+        </ul>
+        <p class="not"><a href="/bolgeler/">Tüm hizmet bölgesi ve varış süreleri →</a></p>
+      </div>
+      <div style="display:grid;gap:12px">
+        <h3>Otoyollar</h3>
+        <ul class="baglar yollar">
+          {yollar.map((y) => <li><a href={`/yollar/${y.slug}/`}>{y.name}</a></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={sss} id="b-sss" />
+
+  <section class="kap bolum" id="rehberler" aria-labelledby="b-rehber">
+    <div>
+      <p class="ust-yazi">Kısa rehberler</p>
+      <h2 id="b-rehber">Yolda kalınca ne yapmalı</h2>
+    </div>
+    <div class="rehberler">
+      {rehberler.map((r) => (
+        <a class="rehber" href={`/rehber/${r.slug}/`}><span>{r.minutes} dk okuma</span><h3>{r.title}</h3><p>{r.cardText}</p></a>
+      ))}
+    </div>
+  </section>
+
+  <section class="kap bolum">
+    <div class="cagri">
+      <h2>Yolda mısınız? Bekletmeyelim.</h2>
+      <p>Aradığınızda net fiyatı ve varış süresini söyleyip yola çıkıyoruz.</p>
+      <div class="tuslar">
+        <a class="tus tus-ara" href={`tel:${business.phoneE164}`} data-olcum="ara">Hemen ara · {business.phone}</a>
+        <button class="tus tus-ikincil" type="button" data-konum>WhatsApp'tan konum gönder</button>
+      </div>
+    </div>
+  </section>
+</Base>
