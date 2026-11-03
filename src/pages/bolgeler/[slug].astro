@@ -1,9 +1,11 @@
 ---
+import Cagri from '../../components/Cagri.astro';
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import CallButtons from '../../components/CallButtons.astro';
 import Faq from '../../components/Faq.astro';
 import Foto from '../../components/Foto.astro';
+import Yorumlar from '../../components/Yorumlar.astro';
 import Varis from '../../components/Varis.astro';
 import { bolgeler, bolgeBySlug, type Bolge } from '../../data/bolgeler';
 import { hizmetler } from '../../data/hizmetler';
@@ -87,13 +89,15 @@ const schema = [{
     </div>
   </section>
 
-  <section class="kap bolum" aria-labelledby="t-foto">
+  {b.photoSrc && <section class="kap bolum" aria-labelledby="t-foto">
     <div>
       <p class="ust-yazi">{b.ablative} bir iş</p>
       <h2 id="t-foto">{b.locative} sahadayız</h2>
     </div>
-    <Foto title={`Gerçek iş fotoğrafı (${b.name})`} note={b.photo} />
-  </section>
+    <Foto src={b.photoSrc} title={`${b.name} iş fotoğrafı`} note={b.photo} />
+  </section>}
+
+  <Yorumlar bolge={b.name} />
 
   <Faq items={b.faq} id="t-sss" kicker={`${b.name} için sorular`} title="Sık sorulanlar" />
 
@@ -109,4 +113,6 @@ const schema = [{
       {yollar.map((y) => <li><a href={`/yollar/${y.slug}/`}>{y.name}</a></li>)}
     </ul>
   </section>
+
+  <Cagri />
 </Base>

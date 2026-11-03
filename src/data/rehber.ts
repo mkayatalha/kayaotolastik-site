@@ -111,7 +111,7 @@ export const rehberler: Rehber[] = [
   {
     slug: 'lastik-patlayinca-ne-yapmali',
     title: 'Lastik patlayınca ne yapmalı?',
-    cardText: 'Jantı kurtarmak için durmanız gereken an ve tamir mi değişim mi.',
+    cardText: 'Jantı korumak için ne zaman durmalı, tamir mi değişim mi?',
     minutes: 3,
     metaTitle: 'Lastik Patlayınca Ne Yapmalı? Tamir mi Değişim mi | Kaya Oto Lastik',
     metaDescription: 'Lastik patladığında aracı nasıl durdurmalı, patlak lastikle gidilir mi, lastik tamir edilebilir mi? Kısa ve net cevaplar, 7/24 yerinde lastik yardımı.',

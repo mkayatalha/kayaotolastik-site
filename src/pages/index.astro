@@ -4,12 +4,17 @@ import Icon from '../components/Icon.astro';
 import CallButtons from '../components/CallButtons.astro';
 import Faq from '../components/Faq.astro';
 import Foto from '../components/Foto.astro';
+import Yorumlar from '../components/Yorumlar.astro';
+import Cagri from '../components/Cagri.astro';
 import { business, bands, otherAreas } from '../data/site';
 import { hizmetler } from '../data/hizmetler';
 import { bolgeler } from '../data/bolgeler';
 import { yollar } from '../data/yollar';
 import { rehberler } from '../data/rehber';
 
+// Gerçek fotoğraflar public/foto/ altına konup buraya yazılınca bölüm görünür.
+const fotolar = { arac: '', usta: '', aku: '' };
+const fotoVar = Object.values(fotolar).some(Boolean);
 const ekstra: Record<string, string[]> = { orta: ['Dilovası'] };
 const sss = [
   { q: 'Gece de geliyor musunuz?', a: 'Evet. 7 gün 24 saat çalışıyoruz; gece, hafta sonu ve bayramlarda da aynı numaradan ulaşırsınız.' },
@@ -43,7 +48,7 @@ const sss = [
     </div>
     <div class="sorunlar">
       {hizmetler.map((h) => (
-        <a class="sorun" href={`/${h.slug}/`}><Icon name={h.icon} /><b>{h.problem}</b><span>{h.card}</span></a>
+        <a class="sorun" href={`/${h.slug}/`}><Icon name={h.icon} /><b>{h.problem}</b><span>{h.card}</span><i class="ok" aria-hidden="true">›</i></a>
       ))}
     </div>
   </section>
@@ -79,17 +84,17 @@ const sss = [
     </ol>
   </section>
 
-  <section class="kap bolum" aria-labelledby="b-foto">
+  {fotoVar && <section class="kap bolum" aria-labelledby="b-foto">
     <div>
       <p class="ust-yazi">Servis aracımız ve işlerimiz</p>
       <h2 id="b-foto">Yolda gerçekten biz geliyoruz</h2>
     </div>
     <div class="foto-izgara">
-      <Foto title="Servis aracı" note="Giydirilmiş araç, yan profilden" ratio="16/9" />
-      <Foto title="Usta iş başında" note="Yol kenarında lastik değişimi" ratio="4/3" />
-      <Foto title="Akü takviyesi" note="Kaput açık, takviye cihazı" ratio="4/3" />
+      <Foto src={fotolar.arac} title="Servis aracı" note="Giydirilmiş araç, yan profilden" ratio="16/9" />
+      <Foto src={fotolar.usta} title="Usta iş başında" note="Yol kenarında lastik değişimi" ratio="4/3" />
+      <Foto src={fotolar.aku} title="Akü takviyesi" note="Kaput açık, takviye cihazı" ratio="4/3" />
     </div>
-  </section>
+  </section>}
 
   <section class="kap bolum" aria-labelledby="b-bolge">
     <div>
@@ -113,6 +118,8 @@ const sss = [
     </div>
   </section>
 
+  <Yorumlar />
+
   <Faq items={sss} id="b-sss" />
 
   <section class="kap bolum" id="rehberler" aria-labelledby="b-rehber">
@@ -127,14 +134,5 @@ const sss = [
     </div>
   </section>
 
-  <section class="kap bolum">
-    <div class="cagri">
-      <h2>Yolda mısınız? Bekletmeyelim.</h2>
-      <p>Aradığınızda net fiyatı ve varış süresini söyleyip yola çıkıyoruz.</p>
-      <div class="tuslar">
-        <a class="tus tus-ara" href={`tel:${business.phoneE164}`} data-olcum="ara">Hemen ara · {business.phone}</a>
-        <button class="tus tus-ikincil" type="button" data-konum>WhatsApp'tan konum gönder</button>
-      </div>
-    </div>
-  </section>
+  <Cagri />
 </Base>

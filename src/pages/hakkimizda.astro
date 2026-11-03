@@ -5,6 +5,7 @@ import CallButtons from '../components/CallButtons.astro';
 import Foto from '../components/Foto.astro';
 import { business } from '../data/site';
 import { hizmetler } from '../data/hizmetler';
+const fotolar = { ekip: '', arac: '' }; // ör. '/foto/ekip.webp'
 const site = Astro.site!.toString().replace(/\/$/, '');
 const schema = [{ '@context': 'https://schema.org', '@type': 'AboutPage', url: `${site}/hakkimizda/`, about: { '@id': `${site}/#isletme` } }];
 ---
@@ -31,25 +32,23 @@ const schema = [{ '@context': 'https://schema.org', '@type': 'AboutPage', url: `
         <h2>Neden mobil?</h2>
         <p>Kasko yol yardımı çoğunlukla aracı çekiciyle götürmeye odaklıdır ve sıra beklenebilir. Oysa lastik ve akü sorunlarının çoğu yerinde, yarım saatten kısa sürede çözülür. Biz bu boşluğu dolduruyoruz.</p>
       </div>
-      <div style="display:grid;gap:12px">
-        <Foto title="Ekibimiz" note="Usta ve servis aracı (izinle)" ratio="4/3" />
-        <Foto title="Servis aracı içi" note="Takviye cihazı, kompresör, lastik ekipmanı" ratio="4/3" />
-      </div>
+      {(fotolar.ekip || fotolar.arac) && <div style="display:grid;gap:12px">
+        <Foto src={fotolar.ekip} title="Ekibimiz" note="Usta ve servis aracı" ratio="4/3" />
+        <Foto src={fotolar.arac} title="Servis aracı içi" note="Takviye cihazı, kompresör, lastik ekipmanı" ratio="4/3" />
+      </div>}
     </div>
   </section>
 
   <section class="kap bolum" aria-labelledby="h-bilgi">
     <h2 id="h-bilgi">İşletme bilgileri</h2>
-    <div class="tablo-kap"><table>
-      <tbody>
-        <tr><th scope="row">İşletme adı</th><td>{business.name}</td></tr>
-        <tr><th scope="row">Ticari ünvan</th><td>{business.legalName}</td></tr>
-        <tr><th scope="row">Merkez</th><td>Tuzla, İstanbul (mobil hizmet; müşteri kabul edilen bir dükkân yoktur)</td></tr>
-        <tr><th scope="row">Telefon</th><td><a href={`tel:${business.phoneE164}`} data-olcum="ara">{business.phone}</a></td></tr>
-        <tr><th scope="row">Çalışma saatleri</th><td>7 gün 24 saat</td></tr>
-        <tr><th scope="row">Hizmet bölgesi</th><td>İstanbul Anadolu Yakası, Gebze, Çayırova, Dilovası, Körfez, İzmit (<a href="/bolgeler/">ayrıntılar</a>)</td></tr>
-      </tbody>
-    </table></div>
+    <dl class="kunye">
+      <div><dt>İşletme adı</dt><dd>{business.name}</dd></div>
+      <div><dt>Ticari ünvan</dt><dd>{business.legalName}</dd></div>
+      <div><dt>Merkez</dt><dd>Tuzla, İstanbul (mobil hizmet; müşteri kabul edilen bir dükkân yoktur)</dd></div>
+      <div><dt>Telefon</dt><dd><a href={`tel:${business.phoneE164}`} data-olcum="ara">{business.phone}</a></dd></div>
+      <div><dt>Çalışma saatleri</dt><dd>7 gün 24 saat</dd></div>
+      <div><dt>Hizmet bölgesi</dt><dd>İstanbul Anadolu Yakası, Gebze, Çayırova, Dilovası, Körfez, İzmit (<a href="/bolgeler/">ayrıntılar</a>)</dd></div>
+    </dl>
   </section>
 
   <section class="kap bolum">

@@ -15,6 +15,7 @@ export type Yol = {
   kesimler: { b: string; s: string; band: 'yakin' | 'orta' | 'uzak' }[];
   bolgeler: string[];
   photo: string;
+  photoSrc?: string;
   faq: Faq[];
 };
 

@@ -108,13 +108,14 @@ const jsonLd = [isletme, ...crumbs, ...schema];
   {analytics.cloudflareToken && (
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: analytics.cloudflareToken })}></script>
   )}
+  <slot name="head" />
 </head>
 <body>
   <a class="skip" href="#icerik">İçeriğe geç</a>
   <div class="serit" aria-hidden="true"></div>
   <header class="ust">
     <div class="kap">
-      <a class="logo" href="/" aria-label={`${business.name} ana sayfa`}>
+      <a class="logo" href="/">
         <span class="logo-isaret" aria-hidden="true"><b>K</b></span>
         <span class="logo-ad">{business.shortName}<small>Mobil Yol Yardım · 7/24</small></span>
       </a>
@@ -122,15 +123,19 @@ const jsonLd = [isletme, ...crumbs, ...schema];
         <nav class="menu-ust" aria-label="Ana menü">
           {nav.map((n) => <a href={n.href}>{n.label}</a>)}
         </nav>
-        <a class="ust-tel" href={`tel:${business.phoneE164}`} data-olcum="ara"><span class="canli" aria-hidden="true"></span><span class="num">{business.phone}</span><span class="kisa">Ara</span></a>
+        <a class="ust-tel" href={`tel:${business.phoneE164}`} data-olcum="ara"><span class="canli" aria-hidden="true"></span><span class="num">{business.phone}</span></a>
         <details class="menu-mobil">
-          <summary aria-label="Menüyü aç">Menü</summary>
+          <summary>Menü</summary>
           <nav aria-label="Mobil menü">
+            <a class="menu-ara" href={`tel:${business.phoneE164}`} data-olcum="ara">Hemen ara · {business.phone}</a>
             {nav.map((n) => <a href={n.href}>{n.label}</a>)}
           </nav>
         </details>
       </div>
     </div>
+    <a class="tel-serit" href={`tel:${business.phoneE164}`} data-olcum="ara">
+      <Icon name="tel" /><span class="tel-no">{business.phone}</span><span class="tel-not"><span class="canli" aria-hidden="true"></span>7/24 açık</span>
+    </a>
   </header>
 
   <main id="icerik">
@@ -145,6 +150,7 @@ const jsonLd = [isletme, ...crumbs, ...schema];
           Tuzla merkezli mobil hizmet · 7 gün 24 saat<br />
           <a href={`tel:${business.phoneE164}`} data-olcum="ara">{business.phone}</a><br />
           <a href={waBase} data-olcum="whatsapp" rel="noopener">WhatsApp</a>
+          {business.googleProfile && <><br /><a href={business.googleProfile} data-olcum="harita" rel="noopener">Google Haritalar’da gör</a></>}
         </div>
         <div>
           <h2>Hizmetler</h2>
@@ -162,7 +168,7 @@ const jsonLd = [isletme, ...crumbs, ...schema];
         </div>
       </div>
       <div class="yasal">
-        <span>{business.legalName} · © {new Date().getFullYear()}</span>
+        <span>Ünvan: {business.legalName} · © {new Date().getFullYear()}</span>
         <a href="/kvkk/">KVKK aydınlatma metni</a>
         <a href="/cerez-politikasi/">Çerez politikası</a>
         {analytics.ga4Id && <button type="button" data-cerez-ac>Çerez tercihleri</button>}
@@ -173,7 +179,7 @@ const jsonLd = [isletme, ...crumbs, ...schema];
   <div class="alt-cubuk" role="region" aria-label="Hızlı iletişim">
     <div class="ic">
       <a class="tus tus-ara" href={`tel:${business.phoneE164}`} data-olcum="ara"><Icon name="tel" /><span>Hemen ara</span></a>
-      <button class="tus tus-wa" type="button" data-konum><Icon name="konum" /><span>Konum at</span></button>
+      <button class="tus tus-wa" type="button" data-konum><Icon name="konum" /><span>Konum gönder</span></button>
     </div>
   </div>
 
@@ -200,20 +206,40 @@ const jsonLd = [isletme, ...crumbs, ...schema];
       function haber(t) { bildirim.textContent = t; bildirim.classList.add('goster'); setTimeout(function () { bildirim.classList.remove('goster'); }, 3500); }
       function whatsapp(metin) { location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(metin); }
 
+      // Mobil menü: dışarı dokununca, Esc ile ya da bağlantı seçilince kapanır.
+      var menu = document.querySelector('.menu-mobil');
+      if (menu) {
+        var etiket = menu.querySelector('summary');
+        menu.addEventListener('toggle', function () { etiket.textContent = menu.open ? 'Kapat' : 'Menü'; });
+        document.addEventListener('click', function (e) { if (menu.open && !menu.contains(e.target)) menu.open = false; });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.open) { menu.open = false; etiket.focus(); } });
+        menu.querySelectorAll('nav a').forEach(function (a) { a.addEventListener('click', function () { menu.open = false; }); });
+      }
+
+      // Alttaki sabit çubuk, sayfanın üstündeki Ara/Konum düğmeleri görünürken gizlenir (aynı düğmeler iki kez görünmesin).
+      var cubuk = document.querySelector('.alt-cubuk');
+      var ust = document.querySelector('.hero .tuslar');
+      if (cubuk && ust && 'IntersectionObserver' in window) {
+        new IntersectionObserver(function (g) { cubuk.classList.toggle('gizli', g[0].isIntersecting); }, { rootMargin: '0px 0px -90px 0px' }).observe(ust);
+      }
+
       // Konum yalnızca düğmeye basılınca istenir; izin yoksa konumsuz mesaj açılır.
       document.querySelectorAll('[data-konum]').forEach(function (b) {
         b.addEventListener('click', function () {
+          if (b.disabled) return;
           olcum('whatsapp_konum');
           var temel = 'Merhaba, yolda kaldım. Yardım istiyorum.';
           if (!('geolocation' in navigator)) { whatsapp(temel + ' (Konumu ayrıca gönderiyorum.)'); return; }
           haber('Konumunuz alınıyor…');
+          b.disabled = true;
+          setTimeout(function () { b.disabled = false; }, 5000);
           navigator.geolocation.getCurrentPosition(function (p) {
             var u = 'https://maps.google.com/?q=' + p.coords.latitude.toFixed(5) + ',' + p.coords.longitude.toFixed(5);
             whatsapp(temel + ' Konumum: ' + u);
           }, function () {
             haber('Konum alınamadı. WhatsApp\'ta ataç simgesinden konum paylaşabilirsiniz.');
             setTimeout(function () { whatsapp(temel + ' (Konumu ayrıca gönderiyorum.)'); }, 1200);
-          }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 });
+          }, { enableHighAccuracy: false, timeout: 4000, maximumAge: 300000 });
         });
       });
 

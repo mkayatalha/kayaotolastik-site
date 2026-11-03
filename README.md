@@ -19,8 +19,15 @@ Kurallar: sitede fiyat rakamı yazılmaz; "her yere 30 dk" yazılmaz (bölgeye g
 yapılacağı sözü verilmez; çekici, yakıt, kapı açma hizmeti yoktur.
 
 ### Fotoğraf eklemek
-Fotoğraflar gelene kadar kesik çizgili yer tutucular görünür (`src/components/Foto.astro`).
-Fotoğrafı `public/foto/` altına koyup ilgili `<Foto>` bileşenine `src="/foto/dosya.webp"` ve `alt="..."` verin.
+Fotoğrafı olmayan bölümler yayında hiç görünmez (boş yer tutucu kutu basılmaz).
+Fotoğrafı `public/foto/` altına koyup ilgili alanı doldurun: ana sayfa ve hakkımızda için sayfadaki `fotolar`
+nesnesi, hizmetler için `src/data/hizmetler.ts` içinde `photo.src`, ilçe ve yollar için `photoSrc`.
+
+### Google Haritalar ve yorumlar
+`src/data/site.ts` içinde `googleProfile` (Haritalar linki) ve `googleReviewUrl` (İşletme Profili > "Yorum iste"
+linki) doldurulunca ana sayfa ve ilçe sayfalarında Google bölümü açılır, `/yorum/` kısa linki Google yorum formuna
+yönlendirir (kartvizit, araç QR kodu, iş sonrası WhatsApp mesajı için). `googleRating` ve `googleReviewCount`
+yalnızca Google'daki gerçek değerlerle, elle güncellenir.
 
 ### Ölçüm
 `src/data/site.ts` içinde `analytics.ga4Id` doldurulursa Google Analytics ve çerez onay kutusu açılır;

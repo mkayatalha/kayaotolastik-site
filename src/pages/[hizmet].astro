@@ -1,4 +1,5 @@
 ---
+import Cagri from '../components/Cagri.astro';
 import Base from '../layouts/Base.astro';
 import Crumbs from '../components/Crumbs.astro';
 import CallButtons from '../components/CallButtons.astro';
@@ -68,13 +69,13 @@ const schema = [{
     </section>
   )}
 
-  <section class="kap bolum" aria-labelledby="h-foto">
+  {h.photo.src && <section class="kap bolum" aria-labelledby="h-foto">
     <div>
       <p class="ust-yazi">İşten bir kare</p>
       <h2 id="h-foto">{h.name} yerinde</h2>
     </div>
-    <Foto title={h.photo.t} note={h.photo.d} />
-  </section>
+    <Foto src={h.photo.src} title={h.photo.t} note={h.photo.d} />
+  </section>}
 
   <section class="kap bolum" aria-labelledby="h-bolge">
     <div>
@@ -104,4 +105,6 @@ const schema = [{
       {digerleri.map((d) => <li><a href={`/${d.slug}/`}><span><b>{d.name}</b><small>{d.card}</small></span><i aria-hidden="true">›</i></a></li>)}
     </ul>
   </section>
+
+  <Cagri />
 </Base>

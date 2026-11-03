@@ -1,0 +1,21 @@
+---
+// Kısa link: kayaotolastik724.com/yorum/ → Google yorum formu.
+// Kartvizit, araç üstü QR ve iş sonrası WhatsApp mesajında bu adres kullanılır.
+import Base from '../layouts/Base.astro';
+import { business } from '../data/site';
+const hedef = business.googleReviewUrl || business.googleProfile;
+---
+<Base title={`Yorum yazın | ${business.shortName}`} description="Hizmetimizi Google'da değerlendirin." noindex>
+  {hedef && <meta slot="head" http-equiv="refresh" content={`0;url=${hedef}`} />}
+  <section class="kap hero">
+    <h1>Hizmetimizi değerlendirin</h1>
+    {hedef ? (
+      <>
+        <p class="giris">Google yorum sayfasına yönlendiriliyorsunuz. Açılmazsa düğmeye dokunun.</p>
+        <a class="tus tus-ara" href={hedef} rel="noopener" data-olcum="yorum">Google’da yorum yaz</a>
+      </>
+    ) : (
+      <p class="giris">Yorum sayfamız çok yakında burada. Şimdilik bize telefonla ya da WhatsApp’tan yazabilirsiniz.</p>
+    )}
+  </section>
+</Base>
