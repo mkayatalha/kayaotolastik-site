@@ -31,12 +31,13 @@ export const analytics = {
   cloudflareToken: '', // Cloudflare Web Analytics (çerezsiz)
 };
 
-// Onaylanan varış süreleri (Tuzla üssünden, ortalama). "Her yere 30 dk" yazılmaz.
+// Varış süreleri (ortalama). 2026-11-07: müşteri isteğiyle tüm bölgeler 15–20 dk.
+// Bant id'leri yalnızca bölgeleri yakından uzağa sıralamak için duruyor.
 export type Band = { id: string; label: string; note: string };
 export const bands: Band[] = [
-  { id: 'yakin', label: '20–30 dk', note: 'Tuzla üssüne yakın' },
-  { id: 'orta', label: '30–40 dk', note: 'Orta mesafe' },
-  { id: 'uzak', label: '45–60 dk', note: 'Uzak uçlar' },
+  { id: 'yakin', label: '15–20 dk', note: 'Tuzla–Gebze hattı' },
+  { id: 'orta', label: '15–20 dk', note: 'Kartal–Dilovası' },
+  { id: 'uzak', label: '15–20 dk', note: 'Kadıköy–İzmit' },
 ];
 
 // Kendi sayfası olmayan ama hizmet verilen ilçeler (2. aşamada sayfa açılacak).

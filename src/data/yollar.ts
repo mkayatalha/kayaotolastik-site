@@ -69,7 +69,7 @@ export const yollar: Yol[] = [
     faq: [
       { q: 'E-5 ile D-100 aynı yol mu?', a: 'Evet. Resmi adı D-100\'dür, İstanbul\'da çoğunlukla E-5 denir.' },
       { q: "E-5'te lastiğim patladı, nereye çekmeliyim?", a: 'Mümkünse yan yola, cep alanına ya da bir benzin istasyonuna geçin. Bulunduğunuz yeri WhatsApp\'tan konum olarak gönderin.' },
-      { q: "E-5'te en hızlı hangi bölgeye gelirsiniz?", a: 'Pendik, Tuzla, Çayırova ve Gebze kesimine genellikle 20–30 dakikada geliriz.' },
+      { q: "E-5'te ne kadar sürede gelirsiniz?", a: 'Üsküdar\'dan İzmit\'e kadar D-100 hattında genellikle 15–20 dakikada geliriz. Trafiğe göre değişebilir; aradığınızda o anki net süreyi söyleriz.' },
     ],
   },
   {
@@ -82,12 +82,12 @@ export const yollar: Yol[] = [
     lead: 'Kuzey Marmara Otoyolu\'nun Anadolu Yakası\'ndaki Kurtköy bölümünden Kocaeli kesimine kadar ve Osmangazi Köprüsü\'ne bağlanan yolda lastik ve akü sorununuzda yanınızdayız.',
     body: [
       'Kuzey Marmara Otoyolu yerleşim yerlerinden uzaktan geçer; yakında benzin istasyonu ya da cep alanı bulmak zor olabilir. Bu yüzden ilk iş güvenliğinizi sağlayın, sonra konumunuzu gönderin. Konum bilgisi, nerede olduğunuzu tarif etmekten çok daha hızlıdır.',
-      'Bu yolun bazı kesimleri bize uzak olabilir. Aradığınızda konumunuza göre ne kadar sürede gelebileceğimizi açıkça söyleriz.',
+      'Bu yolda varışımız genelde 15–20 dakika; trafiğe göre değişebilir. Aradığınızda konumunuza göre net süreyi açıkça söyleriz.',
     ],
     kesimler: [
       { b: 'Kurtköy bağlantısı', s: 'Pendik ve Sabiha Gökçen çevresi.', band: 'yakin' },
       { b: 'Gebze ve Osmangazi Köprüsü bağlantısı', s: 'Dilovası ve Gebze çevresi.', band: 'orta' },
-      { b: 'Kocaeli kesimi (İzmit kuzeyi)', s: 'Mesafeye göre süre aradığınızda söylenir.', band: 'uzak' },
+      { b: 'Kocaeli kesimi (İzmit kuzeyi)', s: 'İzmit kuzeyi; net süre aradığınızda söylenir.', band: 'uzak' },
     ],
     bolgeler: ['pendik', 'gebze', 'korfez', 'izmit'],
     photo: 'Kuzey Marmara Otoyolu çevresinde güvenli bir noktada iş fotoğrafı',
