@@ -19,7 +19,7 @@ const ekstra: Record<string, string[]> = { orta: ['Dilovası'] };
 const sss = [
   { q: 'Gece de geliyor musunuz?', a: 'Evet. 7 gün 24 saat çalışıyoruz; gece, hafta sonu ve bayramlarda da aynı numaradan ulaşırsınız.' },
   { q: 'Fiyatı nasıl öğrenirim?', a: 'Arayın, aracı ve sorunu söyleyin. Lastik ölçüsüne, akü tipine ve bulunduğunuz yere göre net fiyatı telefonda söyleriz. Gelince sürpriz ücret çıkmaz.' },
-  { q: 'Ne kadar sürede gelirsiniz?', a: 'Tuzla, Pendik, Çayırova ve Gebze\'ye genellikle 20–30 dakikada; Kartal, Maltepe ve Dilovası\'na 30–40 dakikada; Kadıköy, Üsküdar, Ataşehir, Körfez ve İzmit\'e 45–60 dakikada geliyoruz. Aradığınızda o anki net süreyi söyleriz.' },
+  { q: 'Ne kadar sürede gelirsiniz?', a: 'Kadıköy\'den İzmit\'e kadar hizmet bölgemizin tamamında ortalama 15–20 dakikada geliyoruz. Trafiğe göre değişebilir; aradığınızda o anki net süreyi söyleriz.' },
   { q: 'Akü mü bitti, marş mı bozuk, nasıl anlarım?', a: 'Kontağı çevirdiğinizde ışıklar sönük ve marş hiç dönmüyorsa genelde akü bitmiştir. Işıklar parlak ama araç tek bir tık sesi çıkarıyorsa marş olabilir. Arayın, birkaç soruyla ayırt edelim.' },
   { q: 'Çekici hizmetiniz var mı?', a: 'Hayır. Lastik ve akü sorunlarını yerinde çözüyoruz; çekici, yakıt ikmali ve kapı açma hizmeti vermiyoruz. Aracınızın çekilmesi gerekiyorsa bunu telefonda dürüstçe söyleriz.' },
   { q: 'Kaskonun yol yardımı varken neden sizi arayayım?', a: 'İkisini de arayabilirsiniz. Kasko yol yardımı çoğunlukla aracı çekiciyle götürmeye odaklıdır ve sıra beklenebilir. Sorun lastik ya da aküyse biz yerinde çözer, sizi yolunuza devam ettiririz.' },
@@ -59,17 +59,17 @@ const sss = [
       <h2 id="b-varis">Tahmini varış süreleri</h2>
     </div>
     <div class="levhalar">
-      {bands.map((b) => (
-        <div class="levha">
-          <div class="levha-ust"><b>{b.label}</b><span>{b.note}</span></div>
-          <ul>
+      <div class="levha tek">
+        <div class="levha-ust"><b>{bands[0].label}</b><span>Tüm hizmet bölgesi</span></div>
+        <ul>
+          {bands.map((b) => (<>
             {bolgeler.filter((x) => x.band === b.id).map((x) => <li><a href={`/bolgeler/${x.slug}/`}>{x.name}</a></li>)}
             {(ekstra[b.id] || []).map((n) => <li>{n}</li>)}
-          </ul>
-        </div>
-      ))}
+          </>))}
+        </ul>
+      </div>
     </div>
-    <p class="not">Süreler Tuzla'daki üssümüzden ortalamadır; trafiğe ve ekibin o anki işine göre değişir. Aradığınızda size net bir süre söyleriz. {otherAreas.slice(0, 5).join(', ')} için de arayabilirsiniz.</p>
+    <p class="not">Süreler ortalamadır; trafiğe ve ekibin o anki işine göre değişir. Aradığınızda size net bir süre söyleriz. {otherAreas.slice(0, 5).join(', ')} için de arayabilirsiniz.</p>
   </section>
 
   <section class="kap bolum" aria-labelledby="b-nasil">

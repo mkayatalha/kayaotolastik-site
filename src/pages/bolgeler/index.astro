@@ -8,7 +8,7 @@ import { bands } from '../../data/site';
 
 const sayfasiz: Record<string, { n: string; s: string }[]> = {
   orta: [{ n: 'Dilovası', s: 'Organize sanayi ve Osmangazi bağlantısı' }],
-  uzak: [{ n: 'Darıca', s: 'Gebze sayfasında anılır; süre Gebze\'ye yakın' }, { n: 'Derince', s: 'İzmit sayfasında anılır' }],
+  uzak: [{ n: 'Darıca', s: 'Gebze sayfasında anılır; Gebze ile aynı süre' }, { n: 'Derince', s: 'İzmit sayfasında anılır' }],
 };
 const diger = ['Ümraniye', 'Sancaktepe', 'Sultanbeyli', 'Çekmeköy', 'Beykoz'];
 ---
@@ -24,17 +24,17 @@ const diger = ['Ümraniye', 'Sancaktepe', 'Sultanbeyli', 'Çekmeköy', 'Beykoz']
     <CallButtons />
   </section>
 
-  {bands.map((band) => (
-    <section class="kap bolum" aria-labelledby={`bant-${band.id}`}>
-      <div class="varis-levha"><b id={`bant-${band.id}`}>{band.label}</b><span>{band.note}</span></div>
-      <div class="kartlar uc">
+  <section class="kap bolum" aria-labelledby="bant-tum">
+    <div class="varis-levha"><b id="bant-tum">{bands[0].label}</b><span>Tüm hizmet bölgesi, ortalama</span></div>
+    <div class="kartlar uc">
+      {bands.map((band) => (<>
         {bolgeler.filter((b) => b.band === band.id).map((b) => (
           <a class="kart" href={`/bolgeler/${b.slug}/`}><b>{b.name}</b><span>{b.il} · {b.mahalleler.slice(0, 4).join(', ')}</span></a>
         ))}
         {(sayfasiz[band.id] || []).map((x) => <div class="kart"><b>{x.n}</b><span>{x.s}</span></div>)}
-      </div>
-    </section>
-  ))}
+      </>))}
+    </div>
+  </section>
 
   <section class="kap bolum" aria-labelledby="b-diger">
     <h2 id="b-diger">Diğer ilçeler</h2>
