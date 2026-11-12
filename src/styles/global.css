@@ -296,3 +296,11 @@ footer h2{font-size:1.15rem;color:var(--metin);margin-bottom:6px}
 .alt-cubuk .tus{font-size:1.2rem;white-space:nowrap}
 .menu-mobil nav{min-width:240px}
 .menu-mobil nav a.menu-ara{white-space:nowrap;font-size:1.1rem}
+
+/* Gerçek fotoğraflar */
+.foto-izgara .foto-img:first-child{grid-column:1/-1}
+@media (min-width:860px){
+  .foto-izgara{grid-auto-rows:340px}
+  .foto-izgara .foto-img:first-child{grid-column:auto}
+  .foto-izgara .foto-img{aspect-ratio:auto !important;height:100%}
+}
