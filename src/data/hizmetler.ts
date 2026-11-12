@@ -47,7 +47,7 @@ export const hizmetler: Hizmet[] = [
     ],
     duration: 'Varıştan sonra tek lastikte tamir ya da yedek takma genelde 15–30 dakika sürer.',
     limits: 'Yanaktaki (yan yüzdeki) kesik ve yırtıklar, uzun süre basıksız gidildiği için ezilmiş lastikler ve büyük patlaklar güvenle tamir edilemez. Bu durumda lastiği değiştirmeniz gerekir; yeni ya da çıkma lastiği aynı gelişte getirebiliriz.',
-    photo: { t: 'Lastik tamiri', d: 'Yol kenarında lastik söküm ya da tamir anı' },
+    photo: { t: 'Lastik tamiri', d: 'Gece, otoparkta yerinde lastik işi', src: '/foto/lastik-yerinde.webp' },
     faq: [
       { q: 'Patlak lastik her zaman tamir edilebilir mi?', a: 'Hayır. Taban kısmındaki çivi ve vida delikleri çoğunlukla tamir edilir. Yanaktaki kesikler ve basıksız gidilerek ezilmiş lastikler güvenli değildir; bunlarda değişim öneririz.' },
       { q: 'Yedek lastiğim yok, ne olacak?', a: 'Lastiğiniz tamir edilebiliyorsa yerinde onarırız. Edilemiyorsa aracınızın ölçüsünde yeni ya da çıkma lastik getirebiliriz. Ölçüyü aradığınızda sorarız.' },

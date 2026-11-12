@@ -13,7 +13,7 @@ import { yollar } from '../data/yollar';
 import { rehberler } from '../data/rehber';
 
 // Gerçek fotoğraflar public/foto/ altına konup buraya yazılınca bölüm görünür.
-const fotolar = { arac: '', usta: '', aku: '' };
+const fotolar = { arac: '/foto/servis-araci.webp', usta: '/foto/gece-lastik-degisimi.webp', ekipman: '/foto/arac-ici-ekipman.webp' };
 const fotoVar = Object.values(fotolar).some(Boolean);
 const ekstra: Record<string, string[]> = { orta: ['Dilovası'] };
 const sss = [
@@ -90,9 +90,9 @@ const sss = [
       <h2 id="b-foto">Yolda gerçekten biz geliyoruz</h2>
     </div>
     <div class="foto-izgara">
-      <Foto src={fotolar.arac} title="Servis aracı" note="Giydirilmiş araç, yan profilden" ratio="16/9" />
-      <Foto src={fotolar.usta} title="Usta iş başında" note="Yol kenarında lastik değişimi" ratio="4/3" />
-      <Foto src={fotolar.aku} title="Akü takviyesi" note="Kaput açık, takviye cihazı" ratio="4/3" />
+      <Foto src={fotolar.arac} title="Servis aracımız" note="Kompresörlü mobil servis aracı" ratio="16/9" />
+      <Foto src={fotolar.usta} title="Gece iş başında" note="Otoparkta yerinde lastik değişimi" ratio="4/3" pos="78% center" />
+      <Foto src={fotolar.ekipman} title="Araçtaki ekipman" note="Kompresör, krikolar ve tamir seti" ratio="4/3" />
     </div>
   </section>}
 
